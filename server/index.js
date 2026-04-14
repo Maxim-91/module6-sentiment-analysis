@@ -9,7 +9,7 @@ const app = express();
 app.use(cors()); // Позволяет фронтенду делать запросы к бэкенду
 app.use(express.json());
 
-const HF_MODEL = "https://api-inference.huggingface.co/models/distilbert-base-uncased-finetuned-sst-2-english";
+const HF_MODEL = "https://api-inference.huggingface.co/models/lxyuan/distilbert-base-multilingual-cased-sentiments-student";
 
 app.post('/api/analyze', async (req, res) => {
   try {

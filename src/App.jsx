@@ -24,9 +24,10 @@ function App() {
       if (response.ok && data[0]) {
         const { label, score } = data[0][0];
         const sentimentMap = {
-          "POSITIVE": "Positive 😊",
-          "NEGATIVE": "Negative 😞"
-        };
+        "positive": "Positive 😊",
+        "neutral": "Neutral 😐",
+        "negative": "Negative 😞"
+      };
         setResult(`${sentimentMap[label] || label} (Accuracy: ${(score * 100).toFixed(1)}%)`);
       } else {
         setResult("Status: " + (data.error || "Check server logs"));
