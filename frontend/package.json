@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "start": "vite preview --port 8080 --host",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -16,7 +17,8 @@
     "node-fetch": "^3.3.2",
     "pg": "^8.20.0",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "vite": "^7.3.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
@@ -26,7 +28,6 @@
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
-    "globals": "^16.5.0",
-    "vite": "^7.3.1"
+    "globals": "^16.5.0"    
   }
 }
