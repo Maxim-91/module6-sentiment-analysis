@@ -40,7 +40,7 @@ To run this project, you need to configure the following variables in your `.env
 ## 🚀 Setup and Installation
 
 ### 1. Database Setup
-1. Create a table in your Pukki database using pgAdmin or any SQL client:
+Create a table in your Pukki database using pgAdmin or any SQL client:
 ```sql
 CREATE TABLE sentiment_results (
     id SERIAL PRIMARY KEY,
@@ -72,7 +72,7 @@ docker-compose up --build
 * `/frontend` — React frontend logic and UI components built with Vite.
 * `/server` — Node.js backend handling API routing, AI inference proxy, and DB connection.
 * `docker-compose.yml` — Orchestration for local development and multi-container testing.
-* `Dockerfile` — Instructions for containerizing the services for deployment on CSC Rahti.
+* `/server/Dockerfile` — Instructions for containerizing the services for deployment on CSC Rahti.
 
 ---
 
