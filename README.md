@@ -48,3 +48,32 @@ CREATE TABLE sentiment_results (
     sentiment_label VARCHAR(50) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+### 2. Local Development (Docker)
+1. Clone the repository to your local machine.
+2. Create a `.env` file inside the `/server` folder and fill in your credentials (see Environment Variables table above).
+3. Run the entire stack using Docker Compose from the root directory:
+```bash
+docker-compose up --build
+
+4. Once the containers are running:
+   * Access the **Frontend UI** at: `http://localhost:5173`
+   * Access the **Backend API** at: `http://localhost:8080`
+
+### 3. Production Access
+* **Frontend UI:** [https://sentiment-analysis-ai-sentiment-analysis2.2.rahtiapp.fi](https://sentiment-analysis-ai-sentiment-analysis2.2.rahtiapp.fi)
+* **API Results (JSON):** [https://sentiment-analysis-backend-ai-sentiment-analysis2.2.rahtiapp.fi/api/results?api_key=pukki-2026](https://sentiment-analysis-backend-ai-sentiment-analysis2.2.rahtiapp.fi/api/results?api_key=pukki-2026)
+
+---
+
+## 📂 Project Structure
+* `/frontend` — React frontend logic and UI components built with Vite.
+* `/server` — Node.js backend handling API routing, AI inference proxy, and DB connection.
+* `docker-compose.yml` — Orchestration for local development and multi-container testing.
+* `Dockerfile` — Instructions for containerizing the services for deployment on CSC Rahti.
+
+---
+
+## ⚠️ Security Note
+**Never commit your `.env` file to GitHub.** The repository is pre-configured with a `.gitignore` file to prevent this. When deploying to **CSC Rahti (OpenShift)**, ensure all sensitive data (DB passwords, API tokens) is injected via the **Environment Variables** section in the deployment configuration dashboard.
+
