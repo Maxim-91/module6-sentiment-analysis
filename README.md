@@ -64,7 +64,7 @@ docker-compose up --build
 
 ### 3. Production Access
 * **Frontend UI:** [https://sentiment-analysis-ai-sentiment-analysis2.2.rahtiapp.fi](https://sentiment-analysis-ai-sentiment-analysis2.2.rahtiapp.fi)
-* **API Results (JSON):** [https://sentiment-analysis-backend-ai-sentiment-analysis2.2.rahtiapp.fi/api/results?api_key=pukki-2026](https://sentiment-analysis-backend-ai-sentiment-analysis2.2.rahtiapp.fi/api/results?api_key=pukki-2026)
+* **API Results (JSON):** [https://backend-sentiment-analysis-ai-sentiment-analysis.2.rahtiapp.fi/api/results?api_key=pukki-2026](https://backend-sentiment-analysis-ai-sentiment-analysis.2.rahtiapp.fi/api/results?api_key=pukki-2026)
 
 ---
 
