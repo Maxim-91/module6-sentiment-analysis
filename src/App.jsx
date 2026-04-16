@@ -13,7 +13,7 @@ function App() {
 
     try {
       // ОБРАТИТЕ ВНИМАНИЕ: порт изменен на 8080
-      const response = await fetch("http://localhost:8080/api/analyze", {
+      const response = await fetch("http://localhost:8081/api/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text }),
@@ -40,9 +40,9 @@ function App() {
   };
 
   return (
-    <div style={{ padding: "40px", maxWidth: "550px", margin: "auto", fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" }}>
-      <h1 style={{ color: "#2c3e50" }}>AI Sentiment Analysis</h1>
-      <p>Analyze the emotion of your English text via secure backend.</p>
+    <div style={{ minHeight: "100vh", display: "block", padding: "40px", maxWidth: "550px", margin: "0", textAlign: "left", fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" }}>
+      <h1 style={{ color: "#3498db", marginTop: "0" }}>AI Sentiment Analysis</h1>
+      <p>Emotion analyze by lxyuan/distilbert-base-multilingual-cased-sentiments-student</p>
       
       <textarea
         rows="5"
@@ -60,7 +60,7 @@ function App() {
           padding: "12px 25px", 
           fontSize: "16px", 
           cursor: loading ? "default" : "pointer",
-          backgroundColor: loading ? "#bdc3c7" : "#3498db",
+          backgroundColor: loading ? "#000000" : "#3498db",
           color: "white",
           border: "none",
           borderRadius: "5px",
@@ -75,8 +75,7 @@ function App() {
           marginTop: "25px", 
           padding: "20px", 
           borderRadius: "8px", 
-          backgroundColor: "#f1f2f6",
-          borderLeft: "6px solid #3498db"
+          backgroundColor: "#000000"
         }}>
           <strong style={{ display: "block", marginBottom: "5px" }}>Analysis Result:</strong>
           <span style={{ fontSize: "18px" }}>{result}</span>

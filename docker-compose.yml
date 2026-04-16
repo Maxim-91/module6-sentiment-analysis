@@ -1,0 +1,10 @@
+version: "4.69.0"
+
+services:
+  backend:
+    build: ./server
+    ports:
+      - "8081:8080"
+    env_file:
+      - .env
+    restart: always

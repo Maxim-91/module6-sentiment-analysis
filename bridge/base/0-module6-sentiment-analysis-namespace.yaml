@@ -1,0 +1,8 @@
+#! 0-module6-sentiment-analysis-namespace.yaml
+# Generated code, do not edit
+apiVersion: v1
+kind: Namespace
+metadata:
+    name: module6-sentiment-analysis
+    labels:
+        com.docker.compose.project: module6-sentiment-analysis
