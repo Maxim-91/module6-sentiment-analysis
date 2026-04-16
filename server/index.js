@@ -34,7 +34,7 @@ pool.connect((err, client, release) => {
   release();
 });
 
-const HF_MODEL = "https://api-inference.huggingface.co/models/lxyuan/distilbert-base-multilingual-cased-sentiments-student";
+const HF_MODEL = "https://api-inference.huggingface.co/lxyuan/distilbert-base-multilingual-cased-sentiments-student";
 
 // --- Endpoint: Analyze text and save result to Database ---
 app.post("/api/analyze", async (req, res) => {
