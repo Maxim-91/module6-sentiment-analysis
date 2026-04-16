@@ -48,6 +48,7 @@ CREATE TABLE sentiment_results (
     sentiment_label VARCHAR(50) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+```
 
 ### 2. Local Development (Docker)
 1. Clone the repository to your local machine.
@@ -55,6 +56,7 @@ CREATE TABLE sentiment_results (
 3. Run the entire stack using Docker Compose from the root directory:
 ```bash
 docker-compose up --build
+```
 
 4. Once the containers are running:
    * Access the **Frontend UI** at: `http://localhost:5173`
