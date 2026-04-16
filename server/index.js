@@ -28,7 +28,7 @@ app.post("/api/analyze", async (req, res) => {
     const { text } = req.body;
 
     const hfResponse = await fetch(HF_MODEL, {
-      headers: { Authorization: "Bearer ${process.env.HF_TOKEN}" },
+      headers: { Authorization: 'Bearer ${process.env.HF_TOKEN}' },
       method: "POST",
       body: JSON.stringify({ inputs: text }),
     });
