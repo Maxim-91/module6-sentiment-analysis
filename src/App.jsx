@@ -13,7 +13,7 @@ function App() {
 
     try {
       // ОБРАТИТЕ ВНИМАНИЕ: порт изменен на 8080
-      const response = await fetch("http://localhost:8081/api/analyze", {
+      const response = await fetch("http://localhost:8080/api/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text }),
