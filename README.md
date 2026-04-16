@@ -1,72 +1,50 @@
-# 🤖 AI Sentiment Analysis App
+# 🤖 AI Sentiment Analysis App (Full-Stack)
 
-A modern full-stack web application that uses Artificial Intelligence to analyze the emotional tone of text. The app categorizes input into **Positive**, **Neutral**, or **Negative** sentiments with a confidence score.
+A modern full-stack web application that uses Artificial Intelligence to analyze the emotional tone of text. The application categorizes inputs into **Positive**, **Neutral**, or **Negative** sentiments and securely stores every result in a cloud database.
 
-The project follows a secure architecture: **User** ↔️ **Frontend (React)** ↔️ **Backend (Node.js)** ↔️ **AI API (Hugging Face)**.
+The project follows a secure production architecture: 
+**User** ↔️ **Frontend (React/Vite)** ↔️ **Backend (Node.js)** ↔️ **Database (PostgreSQL Pukki)** & **AI API (Hugging Face)**.
 
 ## 🚀 Key Features
-* **Multilingual Support:** Powered by a DistilBERT multilingual model, supporting 60+ languages including English and Russian.
-* **Secure Architecture:** API keys are stored on the server side in a `.env` file, keeping them hidden from the browser.
-* **Three-Way Classification:** Unlike basic models, this app accurately identifies neutral context in addition to positive and negative.
-
-## 🧠 The AI Model
-This project utilizes a state-of-the-art transformer model:
-**[lxyuan/distilbert-base-multilingual-cased-sentiments-student](https://huggingface.co/lxyuan/distilbert-base-multilingual-cased-sentiments-student)**
+* **Data Persistence:** Automatically saves every analysis (text, label, and timestamp) to a **CSC Pukki (PostgreSQL)** database.
+* **Teacher Access Endpoint:** Includes a secured `GET /api/results` endpoint protected by an API key for data verification.
+* **Multilingual AI:** Powered by a DistilBERT model, supporting 60+ languages.
+* **Cloud Native:** Fully containerized with Docker and deployed on **CSC Rahti**.
+* **Secure Architecture:** Sensitive credentials (DB passwords, API tokens) are managed via environment variables, never exposed to the frontend.
 
 ## 🛠 Tech Stack
-* **Frontend:** React (Vite)
-* **Backend:** Node.js, Express, CORS
-* **API:** Hugging Face Inference API
-* **Styling:** Custom CSS with modern UI/UX principles
+* **Frontend:** React 19, Vite, Axios
+* **Backend:** Node.js, Express, node-fetch
+* **Database:** PostgreSQL (CSC Pukki DBaaS)
+* **Infrastructure:** Docker, Docker Compose, CSC Rahti (OpenShift)
+* **AI Model:** [distilbert-base-multilingual-cased-sentiments-student](https://huggingface.co/lxyuan/distilbert-base-multilingual-cased-sentiments-student)
 
 ---
 
-## ⚙️ Setup and Installation
+## ⚙️ Environment Variables
 
-### 1. Get Your API Token
-1.  Create a free account at [Hugging Face](https://huggingface.co/).
-2.  Go to **Settings -> Access Tokens**.
-3.  Generate a new **Read** token and copy it.
+To run this project, you need to configure the following variables in your `.env` file (for local dev) or Rahti Dashboard (for production):
 
-### 2. Configure the Backend
-1.  Navigate to the server directory:
-    ```bash
-    cd server
-    ```
-2.  Install dependencies:
-    ```bash
-    npm install
-    ```
-3.  Create a `.env` file in the `server` folder:
-    ```env
-    HF_TOKEN=your_hugging_face_token_here
-    PORT=8080
-    ```
-4.  Start the server:
-    ```bash
-    node index.js
-    ```
-
-### 3. Configure the Frontend
-1.  Open a new terminal in the project root.
-2.  Install dependencies:
-    ```bash
-    npm install
-    ```
-3.  Launch the app:
-    ```bash
-    npm run dev
-    ```
-4.  Open your browser at `http://localhost:5173` (or the port shown in your terminal).
+| Variable | Description |
+|----------|-------------|
+| `DB_HOST` | Hostname of your Pukki PostgreSQL instance |
+| `DB_USER` | Database username |
+| `DB_PASSWORD` | Database password |
+| `DB_NAME` | Database name |
+| `HF_TOKEN` | Hugging Face Access Token (Read) |
+| `TEACHER_API_KEY` | Custom string to protect the `/api/results` endpoint |
+| `PORT` | Server port (default: 8080) |
 
 ---
 
-## 📂 Project Structure
-* `/src` — React frontend logic and UI components.
-* `/server` — Express backend serving as a secure proxy to the AI model.
-* `.gitignore` — Configured to exclude `node_modules` and sensitive `.env` files.
+## 🚀 Setup and Installation
 
----
-
-## ⚠️ Security Note
-**Never commit your `.env` file to GitHub.** The repository is pre-configured with a `.gitignore` file to prevent this. When deploying to production (e.g., Render, Vercel, or Heroku), remember to add your `HF_TOKEN` as an Environment Variable in the hosting provider's dashboard.
+### 1. Database Setup
+1. Create a table in your Pukki database using pgAdmin or any SQL client:
+```sql
+CREATE TABLE sentiment_results (
+    id SERIAL PRIMARY KEY,
+    input_text TEXT NOT NULL,
+    sentiment_label VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
