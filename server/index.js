@@ -3,6 +3,9 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import fetch from 'node-fetch';
 import pg from 'pg';
+// Import AWS SDK for S3 integration (Allas storage)
+import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 // Load environment variables from .env file
 dotenv.config();
@@ -14,6 +17,7 @@ app.use(cors());
 // Parse incoming JSON requests
 app.use(express.json());
 
+// --- Database Configuration ---
 // Database connection configuration using PostgreSQL Pool
 const pool = new pg.Pool({
   host: process.env.DB_HOST,
@@ -32,6 +36,17 @@ pool.connect((err, client, release) => {
   }
   console.log('SUCCESS: Connected to PostgreSQL database');
   release();
+});
+
+// --- S3 / Allas Storage Configuration ---
+// Initialize S3 client for CSC Allas object storage
+const s3Client = new S3Client({
+  endpoint: "https://a3s.fi",
+  region: "helsinki",
+  credentials: {
+    accessKeyId: process.env.ALLAS_ACCESS_KEY,
+    secretAccessKey: process.env.ALLAS_SECRET_KEY,
+  },
 });
 
 const HF_MODEL = "https://api-inference.huggingface.co/models/lxyuan/distilbert-base-multilingual-cased-sentiments-student";
@@ -66,7 +81,7 @@ app.post("/api/analyze", async (req, res) => {
       return res.status(503).json({ error: "AI Model is loading, please try again in a few seconds" });
     }
 
-    // Capture the raw response to debug non-JSON outputs (like HTML error pages)
+    // Capture the raw response to debug non-JSON outputs
     const rawData = await hfResponse.text();
     
     let data;
@@ -90,7 +105,6 @@ app.post("/api/analyze", async (req, res) => {
         res.json(data);
       } catch (dbError) {
         console.error("ERROR: Failed to save result to Database:", dbError.message);
-        // Even if DB fails, we still return the AI result to the user
         res.status(500).json({ error: "Analysis succeeded but saving to DB failed", details: data });
       }
     } else {
@@ -98,7 +112,6 @@ app.post("/api/analyze", async (req, res) => {
       res.status(hfResponse.status || 500).json({ error: data.error || "AI Model error" });
     }
   } catch (error) {
-    // Catch-all for network issues or unexpected server crashes
     console.error("CRITICAL ERROR in /api/analyze:", error);
     res.status(500).json({ error: "Internal server error", message: error.message });
   }
@@ -124,7 +137,27 @@ app.get("/api/results", async (req, res) => {
   }
 });
 
-// Start the server on the port provided by Rahti (usually 8080)
+// --- Endpoint: Generate a presigned URL for downloading files from Allas ---
+app.get('/api/download/:key', async (req, res) => {
+  try {
+    const command = new GetObjectCommand({
+      Bucket: process.env.ALLAS_BUCKET_NAME,
+      Key: req.params.key, // File name example: "Module 6 - Learning Diary - Maksym.pdf"
+    });
+
+    // Generate a signed URL that expires in 15 minutes (900 seconds)
+    const url = await getSignedUrl(s3Client, command, { expiresIn: 900 });
+    
+    console.log(`INFO: Generated download link for file: ${req.params.key}`);
+    // Return the signed URL to the frontend
+    res.json({ url });
+  } catch (err) {
+    console.error("ERROR: Failed to generate signed URL:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Start the server on the port provided by environment or default to 8080
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
