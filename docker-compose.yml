@@ -1,4 +1,4 @@
-version: "4.69.0"
+version: "3.8"
 
 services:
   backend:
@@ -8,3 +8,11 @@ services:
     env_file:
       - .env
     restart: always
+
+  frontend:
+      build: ./frontend
+      ports:
+        - "5173:5173"
+      environment:
+        - VITE_API_BASE_URL=http://localhost:8080
+      restart: always

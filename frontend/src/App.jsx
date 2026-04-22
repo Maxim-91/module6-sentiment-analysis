@@ -7,6 +7,7 @@ function App() {
 
   // Define the base URL for the backend server
   const API_BASE_URL = "https://backend-sentiment-analysis-ai-sentiment-analysis.2.rahtiapp.fi";
+  //const API_BASE_URL = "http://localhost:8080";
 
   // --- Sends text to the backend for AI sentiment analysis ---
   const analyzeSentiment = async () => {
